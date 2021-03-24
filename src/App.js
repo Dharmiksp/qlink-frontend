@@ -1,12 +1,13 @@
-import React, { component } from 'react';
-import {BrowserRouter as Router, Route } from 'react-router-dom';
+import React, { Component } from 'react';
+import Signup from './Containers/signup/signup';
+import Login from './Containers/login/login';
+import Aux from './hoc/Aux';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends Component {
   render() {
     return(
-      <Router>
-
-      </Router>
+     <Login />
     )
   }
 }
