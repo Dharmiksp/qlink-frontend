@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import img from '../../images/login.png';
 import Aux from '../../hoc/Aux';
+import { Link } from 'react-router-dom';
 import classes from './login.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
@@ -9,33 +10,46 @@ import axios from 'axios';
 
 class Login extends Component {
     state = {
-        email_id: '',
-        password: '',
+        user: {
+            email_id: '',
+            password: ''
+        },
+        errorMessage: ''
+           
     }
 
     changeHandler = e => {
-        this.setState({ [e.target.name]: e.target.value })
+        const { user } = {...this.state};
+        const currentState = user;
+        const { name, value } = e.target;
+        currentState[name] = value;
+        this.setState({ user: currentState });   
     }
 
     saveHandler = e => {
         e.preventDefault()
-        axios.post('http://localhost:8080/login', this.state)
+        axios.post('http://localhost:8080/login', this.state.user)
         .then (() => {
-            this.setState({ email_id: '', password: ''})
+            // this.setState({ email_id: '', password: ''})
         })
         .catch(error => { 
             console.log(error.response.data)
+            this.setState({errorMessage: error.response.data})
         })
     }
     
     render() {
-        const { email_id, password } = this.state
+        const { email_id, password } = this.state.user
         return(
             <Aux>
-                <Container fluid id="con">
+                <Container fluid id="con"> 
                     <Row>
-                        <Col className="col-2"/>
-                        <Col className="col-4  ">
+                        <Col className="col-2" />
+                        <Col className="col-4 ">
+                            <img src={img} alt="Login" />
+                        </Col>
+                        <Col className="col-1" />
+                        <Col className="col-5"> 
                             <form onSubmit={this.saveHandler}>
                                 <h2 id="signup">Login</h2>
                                 <div>
@@ -45,20 +59,19 @@ class Login extends Component {
                                     <input id="password" type="text" name="password" value={password} onChange={this.changeHandler} placeholder="Password"/>
                                 </div>
                                 <Button variant="secondary" type="submit" id="save">Login</Button>
-                                    
                             </form>
-
-                        </Col>
-                        <Col className="col-1"/>
-                        <Col className="col-5">
-                        <img src = {img} alt="signup image"/>
                         </Col>
                     </Row>
                 </Container>
                 <Container fluid id="already">  
                     <Row>
-                        <Col className="col-8"></Col>
-                        <Col className="col-4"><a href="#" id="mem">Already a member</a></Col>
+                        <Col className="col-2" />
+                        <Col className="col-5"> <Link to="/" id="mem">Create an account</Link>
+                        </Col>
+                        <Col className="col-5">
+                        { this.state.errorMessage &&
+                            <h3 className="error" id="error"> { this.state.errorMessage } </h3> }
+                        </Col>
                     </Row>
                 </Container>
             </Aux>

@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import Signup from './Containers/signup/signup';
 import Login from './Containers/login/login';
-import Aux from './hoc/Aux';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {BrowserRouter as Router, Route } from 'react-router-dom';
 
 class App extends Component {
   render() {
     return(
-     <Login />
+      <Router> 
+        <Route path="/" component={Signup} exact />
+        <Route path="/login" component={Login} exact />
+      </Router>
+     
     )
   }
 }
