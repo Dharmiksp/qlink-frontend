@@ -1,0 +1,24 @@
+#margin {
+    margin-top: 5%;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
+#pad {
+    margin-top: 5%;
+}
+
+#box {
+    width: auto;
+    height: auto;
+    border: 2px solid black;
+}
+
+#ahre {
+    color: black;
+    font-size: large;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-style: italic;
+}

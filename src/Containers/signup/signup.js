@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import img from '../../images/signup.png';
 import Aux from '../../hoc/Aux';
+import jwt_decode from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import classes from './signup.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
-
 
 class Signup extends Component {
     state = {
@@ -15,7 +15,8 @@ class Signup extends Component {
             email_id: '',
             password: ''
         },
-        errorMessage: ''
+        errorMessage: '',
+        userId: ''
     }
 
     changeHandler = e => {
@@ -29,11 +30,13 @@ class Signup extends Component {
     saveHandler = e => {
         e.preventDefault()
         axios.post('http://localhost:8080/signup', this.state.user)
-        .then (() => {
-            // this.setState({ username: '', email_id: '', password: ''})
+        .then ( res => {
+            var token = res.data;
+            var decoded = jwt_decode(token);
+            console.log(decoded.id);
+            this.setState({ userId: decoded.id})
         })
         .catch(error => { 
-            console.log(error.response.data)
             this.setState({errorMessage: error.response.data})
         })
     }
