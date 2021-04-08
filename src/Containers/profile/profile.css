@@ -12,7 +12,9 @@
 }
 
 #but{
-    margin: 3%;
+    margin: 8%;
+    
+    
 }
 
 #add {
@@ -37,3 +39,14 @@
     position: fixed;
 }
   
+#qlink {
+    color: white;
+    font-size: large;
+    font-weight: bolder;
+    font-style: italic;
+}
+
+#boder {
+    height: auto;
+    border-left: solid 1px grey;
+}

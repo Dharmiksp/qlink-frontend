@@ -30,9 +30,9 @@ class Add extends Component {
 
     saveHandler = e => {
         e.preventDefault()
-        axios.post(`http://localhost:8080/link/${this.props.userId}`, this.state.user)
+        axios.post(`http://localhost:8080/link/${this.userId}`, this.state.user)
             .then( () => {
-                this.props.addCancel()
+                this.cancelHandler()
                 this.props.updateData()
             })
             .catch(error => { 

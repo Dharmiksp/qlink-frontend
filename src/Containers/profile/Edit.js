@@ -8,7 +8,7 @@ class Edit extends Component {
     userId = this.props.userId
     state = {
         profile_title: '',
-        bio: ''
+        bio: '',
     }
 
     changeHandler = e => {
@@ -16,7 +16,7 @@ class Edit extends Component {
     }
     
     cancelHandler = () => {
-        this.setState({profile_title: '', bio: ''})
+        this.setState({ profile_title: '', bio: ''});
         this.props.editCancel()
     }
 
@@ -24,6 +24,7 @@ class Edit extends Component {
         e.preventDefault()
         axios.put(`http://localhost:8080/users/${this.props.userId}`, this.state)
         .then( () => {
+            console.log(this.state.display)
             this.setState({profile_title: '', bio: ''})
             this.props.editCancel()
         })
@@ -54,11 +55,6 @@ class Edit extends Component {
                         <Form.Group >
                             <Form.Label>Bio</Form.Label>
                             <Form.Control type="text" name="bio" value={bio} onChange={this.changeHandler}/>
-                            
-                        </Form.Group>
-
-                        <Form.Group>
-                            <Form.File id="exampleFormControlFile1" label="Photo" />
                         </Form.Group>
                         <center>
                             <Button variant="secondary" type="submit" id="but">Save</Button>

@@ -3,11 +3,12 @@ import img from '../../images/login.png';
 import Aux from '../../hoc/Aux';
 import { Link } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
+import Admin from '../admin';
 import classes from './login.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
-
+import { useHistory } from "react-router-dom";
 
 class Login extends Component {
     state = {
@@ -33,16 +34,20 @@ class Login extends Component {
         .then ( res => {
             var token = res.data;
             var decoded = jwt_decode(token);
-            console.log(decoded.id);
             this.setState({ userId: decoded.id})
+            console.log(this.state.userId);
+            this.props.history.push(`admin/${this.state.userId}`);
+
         })
         .catch(error => { 
-            this.setState({errorMessage: error.response.data})
+            console.log(error)
+            // this.setState({errorMessage: error})
         })
     }
-    
+
     render() {
-        const { email_id, password } = this.state.user
+        const { email_id, password } = this.state.user;
+        <Admin userId={this.state.userId} />
         return(
             <Aux>
                 <Container fluid id="con"> 
@@ -61,7 +66,9 @@ class Login extends Component {
                                 <div>
                                     <input id="password" type="text" name="password" value={password} onChange={this.changeHandler} placeholder="Password"/>
                                 </div>
-                                <Button variant="secondary" type="submit" id="save">Login</Button>
+                                <Button variant="secondary" type="submit" id="save">
+                                    Login
+                                </Button>  
                             </form>
                         </Col>
                     </Row>

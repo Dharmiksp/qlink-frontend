@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import img from '../../images/signup.png';
 import Aux from '../../hoc/Aux';
 import jwt_decode from 'jwt-decode';
+import Page from '../page/Page';
 import { Link } from 'react-router-dom';
 import classes from './signup.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 class Signup extends Component {
     state = {
@@ -34,7 +36,8 @@ class Signup extends Component {
             var token = res.data;
             var decoded = jwt_decode(token);
             console.log(decoded.id);
-            this.setState({ userId: decoded.id})
+            this.setState({ userId: decoded.id});
+            this.props.history.push(`admin/${this.state.userId}`);            
         })
         .catch(error => { 
             this.setState({errorMessage: error.response.data})
@@ -60,7 +63,7 @@ class Signup extends Component {
                                 <div>
                                     <input id="password" type="text" name="password" value={password} onChange={this.changeHandler} placeholder="Password"/>
                                 </div>
-                                <Button variant="secondary" type="submit" id="save">Register</Button>
+                                    <Button variant="secondary" type="submit" id="save">Register</Button>
                             </form>
 
                         </Col>

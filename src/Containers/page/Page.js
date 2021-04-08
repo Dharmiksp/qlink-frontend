@@ -1,26 +1,32 @@
 import React, { Component } from 'react';
-import Aux from '../../hoc/Aux';
 import axios from 'axios';
 import classes from '../page/page.css';
 import {Container, Row, Col} from 'react-bootstrap';
 
 class Page extends Component {
-    userId = this.props.userId
+    username = this.props.match.params.username
     state = {
         user: [],
         link: [],
-        // userId: 25
+        display: ''
     }
 
     loadData = () => {
-        axios.get(`http://localhost:8080/users/${this.props.userId}`)
+        axios.get(`http://localhost:8080/username/${this.username}`)
             .then(response => {
+                console.log(this.props.username);
                 this.setState({user: response.data});
             })
+            .catch(error => { 
+                console.log(error.message)
+            })
 
-        axios.get(`http://localhost:8080/link/${this.props.userId}`)
+        axios.get(`http://localhost:8080/linkd/${this.username}`)
             .then(response => {
                 this.setState({link: response.data})
+            })
+            .catch(error => { 
+                console.log(error.message)
             })
     }
 

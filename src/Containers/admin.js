@@ -3,45 +3,48 @@ import Aux from '../hoc/Aux';
 import {Container, Row, Col} from 'react-bootstrap';
 import Pedit from '../Component/button/Pedit';
 import Ledit from '../Component/button/Ledit';
+import Display from '../Component/button/Display';
 import Ladd from '../Component/button/Ladd'
 import Screen from '../Containers/screen/screen';
 import Add from './link/Add';
 import classes from './profile/profile.css';
 import Delete from './link/Delete';
 import { ButtonGroup, Button, Card } from 'react-bootstrap';
-import Modal from '../Component/Modal/Modal';
-import Page from '../Containers/page/page';
+import Modal from '../Component/Modal/modal1/Modal';
+import Page from './page/Page';
 import Edit from './profile/Edit';
 import { Link } from 'react-router-dom';
+import Image from './profile/Image';
 import Editl from './link/Editl';
 import axios from 'axios';
 
 class Admin extends Component {
-    
+    userId = this.props.match.params.id
     state = {
         user:[],
         link:[],
         userEdit: false,
+        imageAdd: false,
         linkAdd: false,
         linkEdit: false,
         linkId: '',
-        userId: 25,
     }
 
     loadData = () => {
-        axios.get(`http://localhost:8080/users/${this.state.userId}`)
+        axios.get(`http://localhost:8080/users/${this.userId}`)
             .then(response => {
                 this.setState({user: response.data});
+                console.log(this.userId)
             })
 
-        axios.get(`http://localhost:8080/link/${this.state.userId}`)
+        axios.get(`http://localhost:8080/link/${this.userId}`)
             .then(response => {
                 this.setState({link: response.data})
             })
     }
 
     componentDidMount() {
-        this.loadData()
+        this.loadData();
     }
 
     userEditHandler = () => {
@@ -51,6 +54,14 @@ class Admin extends Component {
     userEditCancelHandler = () => {
         this.setState({ userEdit: false});
         this.loadData()
+    }
+
+    imageAddHandler = () => {
+        this.setState({imageAdd: true});
+    }
+
+    imageAddCancelHandler = () => {
+        this.setState({imageAdd: false});
     }
 
     linkAddHandler = () => {
@@ -74,7 +85,7 @@ class Admin extends Component {
 
     
     render() {
-        const user = this.state.user.map(mem => {            
+        const user = this.state.user.map(mem => {          
             return(
                 <Card bg="dark" text="white" >  
                     <Card.Header><h3>Profile</h3></Card.Header>
@@ -82,20 +93,31 @@ class Admin extends Component {
                         <Card.Text>
                             <Container>
                                 <Row>
-                                    <Col className="col-10">
-                                        <div> Title: {mem.profile_title}</div>
+                                    <Col className="col-9">
+                                        <div>Title: {mem.profile_title}</div>
                                         <div>Bio: {mem.bio}</div>
+                                        <div>Display:</div>
                                     </Col>
-                                    <Col className="col-2">
-                                    <Pedit editProfile={this.userEditHandler}/>
+                                    <Col className="col-3">
+                                    <ButtonGroup aria-label="Basic example" size="sm">
+                                        <Pedit editProfile={this.userEditHandler}/>
+                                        <Display addImage={this.imageAddHandler}/>
+                                    </ButtonGroup>
                                     </Col>
+                                    
                                 </Row>
                             </Container>
-                            
-                            
                         </Card.Text>
                     </Card.Body>
                 </Card>
+            )
+        })
+
+        const users = this.state.user.map(us => {
+            return (
+                <Link to = {`/qlink/${us.username}`}>
+                    <div id="qlink">Qlink: http://qlink/{us.username}</div>
+                </Link>
             )
         })
 
@@ -136,7 +158,10 @@ class Admin extends Component {
                                     <Col className="col-8 "  >
                                         {user}
                                         <Modal show={this.state.userEdit} modalClosed={this.userEditCancelHandler}>
-                                            <Edit editCancel={this.userEditCancelHandler} userId={this.state.userId}/>
+                                            <Edit editCancel={this.userEditCancelHandler} userId={this.userId}/>
+                                        </Modal>
+                                        <Modal show={this.state.imageAdd} modalClosed={this.imageAddCancelHandler}>
+                                            <Image userId={this.userId} addCancel={this.imageAddCancelHandler}/>
                                         </Modal>
                                     </Col>
                                     <Col className="col-2" />
@@ -146,7 +171,7 @@ class Admin extends Component {
                                     <Col className="col-8 " >
                                         <Ladd addLink={this.linkAddHandler}/>
                                         <Modal show={this.state.linkAdd} modalClosed={this.linkAddCancelHandler}>
-                                            <Add userId={this.state.userId} updateData={this.loadData} addCancel={this.linkAddCancelHandler}/>
+                                            <Add userId={this.userId} updateData={this.loadData} addCancel={this.linkAddCancelHandler}/>
                                         </Modal>
                                     </Col>
                                     <Col className="col-2" />
@@ -163,22 +188,21 @@ class Admin extends Component {
                                 </Row>
                             </Container>
                         </Col>
-                        <Col className="col-3 border">
-                            <Container fluid >
+                        <Col className="col-3 " id="boder" >
+                            <Container fluid>
                                 <Row>
                                     <Col className="Col-12" id="profile">
                                         <Card bg="dark" text="white">
                                             <Card.Header>
-                                                {/* <Link to = {`qlink/${this.state.userName}`}>
-                                                    Qlink: http://qlink/{this.state.userName}
-                                                </Link> */}
-                                                Qlink:
+                                                {users}                                     
                                             </Card.Header>    
                                         </Card>
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Screen userId={this.state.userId}/>
+                                    <div id="mobile">
+                                    <Screen userId={this.userId}/>
+                                    </div>
                                 </Row>
                             </Container>
                         </Col>
