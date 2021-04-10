@@ -14,7 +14,6 @@
 #but{
     margin: 8%;
     
-    
 }
 
 #add {
@@ -44,6 +43,7 @@
     font-size: large;
     font-weight: bolder;
     font-style: italic;
+    text-align: center;
 }
 
 #boder {

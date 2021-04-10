@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import Aux from '../hoc/Aux';
-import {Container, Row, Col} from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import Pedit from '../Component/button/Pedit';
 import Ledit from '../Component/button/Ledit';
 import Display from '../Component/button/Display';
 import Ladd from '../Component/button/Ladd'
 import Screen from '../Containers/screen/screen';
 import Add from './link/Add';
-import classes from './profile/profile.css';
+import './profile/profile.css';
 import Delete from './link/Delete';
-import { ButtonGroup, Button, Card } from 'react-bootstrap';
+import { ButtonGroup, Card } from 'react-bootstrap';
 import Modal from '../Component/Modal/modal1/Modal';
-import Page from './page/Page';
 import Edit from './profile/Edit';
 import { Link } from 'react-router-dom';
 import Image from './profile/Image';
@@ -21,8 +20,8 @@ import axios from 'axios';
 class Admin extends Component {
     userId = this.props.match.params.id
     state = {
-        user:[],
-        link:[],
+        user: [],
+        link: [],
         userEdit: false,
         imageAdd: false,
         linkAdd: false,
@@ -33,13 +32,15 @@ class Admin extends Component {
     loadData = () => {
         axios.get(`http://localhost:8080/users/${this.userId}`)
             .then(response => {
-                this.setState({user: response.data});
-                console.log(this.userId)
+                this.setState({ user: response.data });
             })
 
         axios.get(`http://localhost:8080/link/${this.userId}`)
             .then(response => {
-                this.setState({link: response.data})
+                this.setState({ link: response.data })
+            })
+            .catch(error => {
+                console.log(error)
             })
     }
 
@@ -48,20 +49,20 @@ class Admin extends Component {
     }
 
     userEditHandler = () => {
-        this.setState({userEdit: true});
+        this.setState({ userEdit: true });
     }
 
     userEditCancelHandler = () => {
-        this.setState({ userEdit: false});
+        this.setState({ userEdit: false });
         this.loadData()
     }
 
     imageAddHandler = () => {
-        this.setState({imageAdd: true});
+        this.setState({ imageAdd: true });
     }
 
     imageAddCancelHandler = () => {
-        this.setState({imageAdd: false});
+        this.setState({ imageAdd: false });
     }
 
     linkAddHandler = () => {
@@ -74,37 +75,36 @@ class Admin extends Component {
     }
 
     linkEditHandler = (linkId) => {
-        this.setState({ linkEdit: true, linkId: linkId});
-        console.log(linkId)
+        this.setState({ linkEdit: true, linkId: linkId });
     }
 
     linkEditCancelHandler = () => {
-        this.setState({ linkEdit: false});
+        this.setState({ linkEdit: false });
         this.loadData()
     }
 
-    
+
     render() {
-        const user = this.state.user.map(mem => {          
-            return(
-                <Card bg="dark" text="white" >  
+        const user = this.state.user.map(mem => {
+            return (
+                <Card bg="dark" text="white" key={"client" + mem.user_id} >
                     <Card.Header><h3>Profile</h3></Card.Header>
                     <Card.Body>
                         <Card.Text>
                             <Container>
                                 <Row>
-                                    <Col className="col-9">
+                                    <Col lg={8} md={8} sm={12}>
                                         <div>Title: {mem.profile_title}</div>
                                         <div>Bio: {mem.bio}</div>
                                         <div>Display:</div>
                                     </Col>
-                                    <Col className="col-3">
-                                    <ButtonGroup aria-label="Basic example" size="sm">
-                                        <Pedit editProfile={this.userEditHandler}/>
-                                        <Display addImage={this.imageAddHandler}/>
-                                    </ButtonGroup>
+                                    <Col lg={4} md={4} sm={4}>
+                                        <ButtonGroup aria-label="Basic example" size="sm">
+                                            <Pedit editProfile={this.userEditHandler} />
+                                            <Display addImage={this.imageAddHandler} />
+                                        </ButtonGroup>
                                     </Col>
-                                    
+
                                 </Row>
                             </Container>
                         </Card.Text>
@@ -115,7 +115,7 @@ class Admin extends Component {
 
         const users = this.state.user.map(us => {
             return (
-                <Link to = {`/qlink/${us.username}`}>
+                <Link to={`/qlink/${us.username}`} key={"user" + us.user_id}>
                     <div id="qlink">Qlink: http://qlink/{us.username}</div>
                 </Link>
             )
@@ -123,85 +123,87 @@ class Admin extends Component {
 
 
         const link = this.state.link.map(lik => {
-            return(
-                <Card bg="dark" text="white" id="cards" >  
+            return (
+                <Card bg="dark" text="white" id="cards" key={"customer" + lik.link_id} >
                     <Card.Body>
                         <Card.Text>
                             <Container>
                                 <Row >
-                                    <Col className="col-9" >
+                                    <Col lg={8} md={8} sm={12} >
                                         <div>{lik.app_name}</div>
                                         <div>{lik.link_app}</div>
                                     </Col>
-                                    <Col className="col-3 ">
+                                    <Col lg={4} md={4} sm={4}>
                                         <ButtonGroup aria-label="Basic example" size="sm">
                                             <Ledit editLink={() => this.linkEditHandler(lik.link_id)} />
-                                            <Delete linkId={lik.link_id} updateData={this.loadData}/>
+                                            <Delete linkId={lik.link_id} updateData={this.loadData} />
                                         </ButtonGroup>
                                     </Col>
                                 </Row>
-                            </Container>                            
+                            </Container>
                         </Card.Text>
                     </Card.Body>
                 </Card>
             )
         })
 
-        return(
+        return (
             <Aux>
                 <Container fluid>
                     <Row>
-                        <Col className="col-9">
+                        <Col sm={12} md={12} lg={9} >
                             <Container>
                                 <Row id="profile">
-                                    <Col className="col-2" />
-                                    <Col className="col-8 "  >
+                                    <Col lg={2} md={1} sm={0} />
+                                    <Col lg={8} md={10} sm={12} >
                                         {user}
                                         <Modal show={this.state.userEdit} modalClosed={this.userEditCancelHandler}>
-                                            <Edit editCancel={this.userEditCancelHandler} userId={this.userId}/>
+                                            <Edit editCancel={this.userEditCancelHandler} userId={this.userId} />
                                         </Modal>
                                         <Modal show={this.state.imageAdd} modalClosed={this.imageAddCancelHandler}>
-                                            <Image userId={this.userId} addCancel={this.imageAddCancelHandler}/>
+                                            <Image userId={this.userId} addCancel={this.imageAddCancelHandler} />
                                         </Modal>
                                     </Col>
-                                    <Col className="col-2" />
+                                    <Col lg={2} md={1} sm={0} />
                                 </Row>
                                 <Row id="profile">
-                                    <Col className="col-2" />
-                                    <Col className="col-8 " >
-                                        <Ladd addLink={this.linkAddHandler}/>
+                                    <Col lg={2} md={1} sm={0} />
+                                    <Col lg={8} md={10} sm={12} >
+                                        <Ladd addLink={this.linkAddHandler} />
                                         <Modal show={this.state.linkAdd} modalClosed={this.linkAddCancelHandler}>
-                                            <Add userId={this.userId} updateData={this.loadData} addCancel={this.linkAddCancelHandler}/>
+                                            <Add userId={this.userId} updateData={this.loadData} addCancel={this.linkAddCancelHandler} />
                                         </Modal>
                                     </Col>
-                                    <Col className="col-2" />
+                                    <Col lg={2} md={1} sm={0} />
                                 </Row>
                                 <Row>
-                                    <Col className="col-2" />
-                                    <Col className="col-8" >
+                                    <Col lg={2} md={1} sm={0} />
+                                    <Col lg={8} md={10} sm={12} >
                                         {link}
                                         <Modal show={this.state.linkEdit} modalClosed={this.linkEditCancelHandler}>
-                                            <Editl linkId={this.state.linkId} editCancel={this.linkEditCancelHandler}/>
+                                            <Editl linkId={this.state.linkId} editCancel={this.linkEditCancelHandler} />
                                         </Modal>
                                     </Col>
-                                    <Col className="col-2" />
+                                    <Col lg={2} md={1} sm={0} />
                                 </Row>
                             </Container>
                         </Col>
-                        <Col className="col-3 " id="boder" >
-                            <Container fluid>
+                        <Col lg={3} id="boder" >
+                            <Container>
                                 <Row>
-                                    <Col className="Col-12" id="profile">
+                                    <Col md={1} />
+                                    <Col md={10} id="profile">
                                         <Card bg="dark" text="white">
                                             <Card.Header>
-                                                {users}                                     
-                                            </Card.Header>    
+                                                {users}
+                                            </Card.Header>
                                         </Card>
                                     </Col>
+                                    <Col md={1} />
                                 </Row>
                                 <Row>
                                     <div id="mobile">
-                                    <Screen userId={this.userId}/>
+                                        <Screen userId={this.userId} />
                                     </div>
                                 </Row>
                             </Container>

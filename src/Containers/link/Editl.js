@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import {Button, Form } from 'react-bootstrap';
 import {Container, Col, Row} from 'react-bootstrap';
-import classes from '../profile/profile.css';
+import '../profile/profile.css';
 
 class Editl extends Component {
     linkId = this.props.linkId
@@ -38,10 +38,11 @@ class Editl extends Component {
             this.setState({errorMessage: error.response.data})
         })
     }
-
-    async componentWillReceiveProps(newProps) {
-        await axios.get(`http://localhost:8080/linkget/${newProps.linkId}`)
-            .then(response => { this.setState({ user: { ...this.state.user, app_name: response.data[0].app_name, link_app: response.data[0].link_app}});
+    
+    componentWillReceiveProps(newProps) {
+        if(!newProps.linkId) return 
+        else axios.get(`http://localhost:8080/linkget/${newProps.linkId}`)
+            .then(response => { this.setState({ user: { ...this.state.user, app_name: response.data[0].app_name, link_app: response.data[0].link_app}})
         });
     }
 

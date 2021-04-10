@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import classes from '../page/page.css';
-import {Container, Row, Col} from 'react-bootstrap';
+import '../page/page.css';
+import {Container, Row, Col, Image} from 'react-bootstrap';
 
 class Page extends Component {
     username = this.props.match.params.username
     state = {
         user: [],
         link: [],
+        userId: '',
         display: ''
     }
 
     loadData = () => {
         axios.get(`http://localhost:8080/username/${this.username}`)
             .then(response => {
-                console.log(this.props.username);
+                this.setState({userId: response.data[0].user_id})
                 this.setState({user: response.data});
+                axios.get(`http://localhost:8080/image/${this.state.userId}`)
+                .then(response => {
+                    this.setState({display: `http://localhost:8080/${response.data.displayImage}`})
+                })
+                .catch(error => {
+                    console.log(error.message)
+                })
             })
             .catch(error => { 
                 console.log(error.message)
@@ -28,7 +36,7 @@ class Page extends Component {
             .catch(error => { 
                 console.log(error.message)
             })
-    }
+    }       
 
     componentDidMount() {
         this.loadData()
@@ -37,26 +45,34 @@ class Page extends Component {
     render() {
         const user = this.state.user.map(mem => { 
             return(
-                <Container>
+                <Container key={"page" + mem.user_id}>
                     <Row>
-                        <Col id="margin">
+                        <Col id="margin" >
                             <center>
                                 <div>{mem.profile_title}</div>
                                 <div>{mem.bio}</div>
                             </center>
                         </Col>
                     </Row>
+                    <Row>
+                        <Col>
+                            <center>
+                                <Image src={this.state.display} roundedCircle id="imag" />
+                            </center>
+                            
+                        </Col>
+                   </Row>
                 </Container>
             )
         })
 
         const link = this.state.link.map(lik => {
             return(
-                <Container id="pad">
+                <Container id="pad" key={"pager" + lik.link_id}>
                     <Row>
                         <Col className="col-3"/>
                         <Col className="col-6">
-                            <div id="box">
+                            <div id="box" key={lik.link_id}>
                                 <a id="ahre" href={lik.link_app}>
                                     <center>
                                         {lik.app_name}

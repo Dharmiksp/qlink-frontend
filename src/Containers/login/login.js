@@ -3,12 +3,10 @@ import img from '../../images/login.png';
 import Aux from '../../hoc/Aux';
 import { Link } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
-import Admin from '../admin';
-import classes from './login.css';
+import './login.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
-import { useHistory } from "react-router-dom";
 
 class Login extends Component {
     state = {
@@ -35,29 +33,25 @@ class Login extends Component {
             var token = res.data;
             var decoded = jwt_decode(token);
             this.setState({ userId: decoded.id})
-            console.log(this.state.userId);
             this.props.history.push(`admin/${this.state.userId}`);
-
         })
         .catch(error => { 
-            console.log(error)
-            // this.setState({errorMessage: error})
+            this.setState({errorMessage: error.response.data})
         })
     }
 
     render() {
         const { email_id, password } = this.state.user;
-        <Admin userId={this.state.userId} />
         return(
             <Aux>
                 <Container fluid id="con"> 
                     <Row>
-                        <Col className="col-2" />
-                        <Col className="col-4 ">
+                        <Col sm={1} md={0} lg={2} />
+                        <Col md={7} lg={5}>
                             <img src={img} alt="Login" />
                         </Col>
-                        <Col className="col-1" />
-                        <Col className="col-5"> 
+                        <Col sm={3} md={0} lg={1} />
+                        <Col sm={8} md={5} lg={4}> 
                             <form onSubmit={this.saveHandler}>
                                 <h2 id="signup">Login</h2>
                                 <div>

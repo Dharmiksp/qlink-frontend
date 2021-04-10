@@ -22,3 +22,8 @@
     font-weight: bold;
     font-style: italic;
 }
+
+#imag {
+    width: 300px;
+    height: 300px;
+}

@@ -1,6 +1,5 @@
 import React from 'react';
-import ReactDom from 'react-dom';
-import classes from '../modal1/Modal.css';
+import  '../modal1/Modal.css';
 import Aux from '../../../hoc/Aux';
 import Backdrop from '../../Backdrop/Backdrop';
 

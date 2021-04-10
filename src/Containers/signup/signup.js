@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import img from '../../images/signup.png';
+import Login from '../../images/signup.png';
 import Aux from '../../hoc/Aux';
 import jwt_decode from 'jwt-decode';
-import Page from '../page/Page';
 import { Link } from 'react-router-dom';
-import classes from './signup.css';
+import './signup.css';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 import axios from 'axios';
-import { useHistory } from "react-router-dom";
 
 class Signup extends Component {
     state = {
@@ -48,10 +46,10 @@ class Signup extends Component {
         const { username, email_id, password } = this.state.user
         return(
             <Aux>
-                <Container fluid id="con">
+                <Container fluid id="con" >
                     <Row>
-                        <Col className="col-2"/>
-                        <Col className="col-4  ">
+                        <Col sm={1} md={0} lg={2}/>
+                        <Col sm={8} md={5} lg={4} >
                             <form onSubmit={this.saveHandler}>
                                 <h2 id="signup">Signup</h2>
                                 <div>
@@ -67,13 +65,13 @@ class Signup extends Component {
                             </form>
 
                         </Col>
-                        <Col className="col-1"/>
-                        <Col className="col-5">
-                        <img src = {img} alt="signup image"/>
+                        <Col sm={3} md={0} lg={1}/>
+                        <Col md={7} lg={5}>
+                        <img src = {Login} alt="signup"/>
                         </Col>
                     </Row>
                 </Container>
-                <Container fluid id="already">  
+                <Container fluid id="already" >  
                     <Row>
                         <Col className="col-2"/>
                         <Col className="col-6">

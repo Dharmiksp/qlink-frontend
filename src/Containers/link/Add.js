@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import axios from 'axios';
 import { Form, Button } from 'react-bootstrap';
-import classes from '../profile/profile.css';
+import '../profile/profile.css';
 import {Container, Col, Row} from 'react-bootstrap';
 
 class Add extends Component {

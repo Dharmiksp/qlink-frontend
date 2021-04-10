@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-// import classes from '../Butt/Butt.css';
+import React from 'react';
 import Aux from '../../hoc/Aux';
 import { Button } from 'react-bootstrap';
 

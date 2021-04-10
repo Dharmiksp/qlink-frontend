@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
 import axios from 'axios';
 import {Button, Form, Card } from 'react-bootstrap';
-import Aux from '../../hoc/Aux';
 import {Container, Col, Row} from 'react-bootstrap';
 
 
 class Image extends Component {
     userId = this.props.userId
     state = {
-        display: null,
+        display: '',
     }
 
     changeHandler = e => {
@@ -37,7 +35,6 @@ class Image extends Component {
         return(
            <Container>
                <Row>
-               {/* <Col className="col-2" /> */}
                 <Col className="col-12"> 
                 <Card bg="dark" text="white">
                     <Card.Header as="h5">Profile Photo</Card.Header>
@@ -53,7 +50,6 @@ class Image extends Component {
                     </Card.Body>
                 </Card>
                 </Col>
-                {/* <Col className="col-2" /> */}
                </Row>
            </Container>
         )

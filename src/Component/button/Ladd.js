@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Aux from '../../hoc/Aux';
 import {Button} from 'react-bootstrap';
-import classes from '../../Containers/profile/profile.css';
+import '../../Containers/profile/profile.css';
 
 
 const Ladd = (props) => {

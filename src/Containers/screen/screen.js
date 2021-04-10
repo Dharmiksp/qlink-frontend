@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import Aux from '../../hoc/Aux';
 import axios from 'axios';
-import classes from '../screen/screen.css';
+import '../screen/screen.css';
 import {Container, Row, Col, Image} from 'react-bootstrap';
 
 class Screen extends Component {
@@ -36,19 +35,18 @@ class Screen extends Component {
     render() {
         const user = this.state.user.map(mem => {            
             return(
-               <Container fluid >
+               <Container fluid key={'member' + mem.user_id}>
                    <Row >
-                       <Col className="col-12 " id="margin">
+                       <Col className="col-12 " id="margin" >
                             <center>
                             <div>{mem.profile_title}</div>
-                            <div>{mem.bio}</div>
-                            <image src={this.state.display} alt='Image'/>
+                            <div>{mem.bio}</div>    
                             </center>
                        </Col>
                    </Row>
                    <Row>
                         <Col>
-                            <Image src={this.state.display} thumbnail />
+                            <Image src={this.state.display} roundedCircle id="imag" alt="Display Picture"/>
                         </Col>
                    </Row>
                </Container>
@@ -57,12 +55,12 @@ class Screen extends Component {
         
         const link = this.state.link.map(lik => {
             return(
-                <Container id="padd">
+                <Container id="padd" key={'link' + lik.link_id}>
                     <Row >
                         <Col className="col-1"/>
                         <Col className="col-10" >
                             <div id="box"><a id="ahr" href={lik.link_app}>
-                                <center>{lik.app_name}</center></a></div>
+                            <center>{lik.app_name}</center></a></div>
                         </Col>
                         <Col className="col-1"/>
                     </Row>
@@ -74,8 +72,7 @@ class Screen extends Component {
             <Container>
                 <Row>
                     <Col className="col-12">
-                        {user}
-                       
+                        {user}                       
                         {link}
                     </Col>
                 </Row>
